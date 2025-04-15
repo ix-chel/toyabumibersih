@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('used_parts', function (Blueprint $table) {
+        Schema::create('equipment', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('report_id')->constrained('maintenance_reports')->onDelete('cascade');
-            $table->foreignId('inventory_id')->constrained('inventory')->onDelete('cascade');
-            $table->integer('quantity');
+            $table->foreignId('store_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('serial_number')->unique();
+            $table->enum('status', ['Active', 'Retired', 'Maintenance'])->default('Active');
+            $table->date('installed_at');
             $table->timestamps();
         });
     }
@@ -25,7 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('used_parts');
+        Schema::dropIfExists('equipment');
     }
-};
-
+}; 

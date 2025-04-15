@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('technicians', function (Blueprint $table) {
+        Schema::create('soft_deletes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('specialization')->nullable();
-            $table->string('certification')->nullable();
+            $table->string('table_name');
+            $table->unsignedBigInteger('deleted_id');
+            $table->foreignId('deleted_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,7 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('technicians');
+        Schema::dropIfExists('soft_deletes');
     }
 };
-

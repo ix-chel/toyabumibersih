@@ -37,8 +37,6 @@ class FilterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'site_id' => 'required|exists:sites,id',
-            'serial_number' => 'required|  [
-            'site_id' => 'required|exists:sites,id',
             'serial_number' => 'required|string|unique:filters',
             'model' => 'required|string|max:255',
             'installation_date' => 'required|date',
@@ -98,4 +96,3 @@ class FilterController extends Controller
         return response()->json(['message' => 'Filter deleted successfully'], 200);
     }
 }
-

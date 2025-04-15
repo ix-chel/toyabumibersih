@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class MaintenanceReportPhoto extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'description',
+        'report_id',
+        'file_path',
     ];
 
-    public function users()
+    public function report()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(MaintenanceReport::class, 'report_id');
     }
 } 

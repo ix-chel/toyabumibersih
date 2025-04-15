@@ -13,13 +13,11 @@ return new class extends Migration
     {
         Schema::create('maintenance_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('schedule_id')->constrained('maintenance_schedules')->onDelete('cascade');
-            $table->foreignId('technician_id')->constrained()->onDelete('cascade');
-            $table->dateTime('service_date');
-            $table->text('findings');
-            $table->text('actions_taken');
-            $table->text('recommendations')->nullable();
-            $table->enum('status', ['draft', 'submitted', 'approved', 'rejected']);
+            $table->foreignId('store_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->enum('status', ['Pending', 'In Progress', 'Completed', 'Cancelled'])->default('Pending');
+            $table->text('notes')->nullable();
+            $table->timestamp('performed_at');
             $table->timestamps();
         });
     }
@@ -31,5 +29,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('maintenance_reports');
     }
-};
-
+}; 

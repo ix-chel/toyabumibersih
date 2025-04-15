@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('inventory', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('item_code')->unique();
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->integer('current_stock')->default(0);
-            $table->integer('reorder_level')->default(10);
-            $table->decimal('unit_price', 10, 2);
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('whatsapp_number');
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -28,7 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventory');
+        Schema::dropIfExists('users');
     }
-};
-
+}; 

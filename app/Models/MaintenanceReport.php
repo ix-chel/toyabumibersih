@@ -9,60 +9,31 @@ class MaintenanceReport extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'schedule_id',
-        'technician_id',
-        'service_date',
-        'findings',
-        'actions_taken',
-        'recommendations',
+        'store_id',
+        'user_id',
         'status',
+        'notes',
+        'performed_at',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'service_date' => 'datetime',
-    ];
-
-    /**
-     * Get the maintenance schedule that owns the report.
-     */
-    public function maintenanceSchedule()
+    public function store()
     {
-        return $this->belongsTo(MaintenanceSchedule::class, 'schedule_id');
+        return $this->belongsTo(Store::class);
     }
 
-    /**
-     * Get the technician that owns the report.
-     */
-    public function technician()
+    public function user()
     {
-        return $this->belongsTo(Technician::class);
+        return $this->belongsTo(User::class);
     }
 
-    /**
-     * Get the used parts for the report.
-     */
-    public function usedParts()
+    public function photos()
     {
-        return $this->hasMany(UsedPart::class, 'report_id');
+        return $this->hasMany(MaintenanceReportPhoto::class);
     }
 
-    /**
-     * Get the invoice items for the report.
-     */
-    public function invoiceItems()
+    public function partsUsed()
     {
-        return $this->hasMany(InvoiceItem::class, 'report_id');
+        return $this->hasMany(MaintenancePartUsed::class);
     }
-}
-
+} 

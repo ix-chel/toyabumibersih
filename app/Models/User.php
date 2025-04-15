@@ -11,76 +11,36 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'phone',
+        'role_id',
+        'company_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 
-    /**
-     * Get the roles for the user.
-     */
-    public function roles()
+    public function role()
     {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        return $this->belongsTo(Role::class);
     }
 
-    /**
-     * Check if the user has a specific role.
-     */
-    public function hasRole($roleName)
+    public function company()
     {
-        return $this->roles()->where('name', $roleName)->exists();
+        return $this->belongsTo(Company::class);
     }
 
-    /**
-     * Get the technician record associated with the user.
-     */
-    public function technician()
+    public function maintenanceReports()
     {
-        return $this->hasOne(Technician::class);
+        return $this->hasMany(MaintenanceReport::class);
     }
-
-    /**
-     * Get the forum posts created by the user.
-     */
-    public function forumPosts()
-    {
-        return $this->hasMany(ForumPost::class);
-    }
-
-    /**
-     * Get the forum comments created by the user.
-     */
-    public function forumComments()
-    {
-        return $this->hasMany(ForumComment::class);
-    }
-}
-
+} 
